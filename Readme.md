@@ -1,7 +1,7 @@
 # Личный проект «Кекстаграм» [![Build status][travis-image]][travis-url] [![Dependency status][dependency-image]][dependency-url]
 
 * Студент: [Ольга Манухова](https://up.htmlacademy.ru/javascript/7/user/217042).
-* Наставник: `Неизвестно`.
+* Наставник: `Александр Быков`.
 
 ---
 
