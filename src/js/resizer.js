@@ -83,7 +83,6 @@
       // Очистка изображения.
       this._ctx.clearRect(0, 0, this._container.width, this._container.height);
 
-
       // Параметры линии.
       // NB! Такие параметры сохраняются на время всего процесса отрисовки
       // canvas'a поэтому важно вовремя поменять их, если нужно начать отрисовку
@@ -98,10 +97,8 @@
       this._ctx.setLineDash([15, 10]);
       // Смещение первого штриха от начала линии.
       this._ctx.lineDashOffset = 7;
-
       // Сохранение состояния канваса.
       this._ctx.save();
-
       // Установка начальной точки системы координат в центр холста.
       this._ctx.translate(this._container.width / 2, this._container.height / 2);
 
@@ -121,39 +118,27 @@
           this._resizeConstraint.side - this._ctx.lineWidth / 2);
 
 
-          this._ctx.fillStyle = "rgba(0, 0, 0, 0.8)";
-          this._ctx.strokeStyle = "rgba(0, 0, 0, 0)";
-          this._ctx.lineWidth = 0;
-          this._ctx.setLineDash([0, 0]);
-
-          this._ctx.beginPath();
-          this._ctx.moveTo((-this._container.width / 2), (this._container.height / 2));
-          this._ctx.lineTo((this._container.width / 2), (this._container.height / 2));
-          this._ctx.lineTo((this._container.width/2), (-this._container.height/2));
-          this._ctx.lineTo((-this._container.width/2), (-this._container.height/2));
-          this._ctx.lineTo((-this._container.width / 2), (this._container.height / 2));
-
-          this._ctx.lineTo((-this._resizeConstraint.side / 2) - this._ctx.lineWidth, (-this._resizeConstraint.side / 2) - this._ctx.lineWidth);
-
-          this._ctx.lineTo((-this._resizeConstraint.side / 2) - this._ctx.lineWidth, (this._resizeConstraint.side / 2) - this._ctx.lineWidth / 2);
-
-          this._ctx.lineTo((this._resizeConstraint.side / 2) - this._ctx.lineWidth / 2, (this._resizeConstraint.side / 2) - this._ctx.lineWidth / 2);
-
-          this._ctx.lineTo((this._resizeConstraint.side / 2) - this._ctx.lineWidth /2, (-this._resizeConstraint.side / 2) - this._ctx.lineWidth );
-
-          this._ctx.lineTo((-this._resizeConstraint.side / 2) - this._ctx.lineWidth, (-this._resizeConstraint.side / 2) - this._ctx.lineWidth);
-
-
-
-
-          this._ctx.closePath();
-          this._ctx.stroke();
-          this._ctx.fill('evenodd');
-
-
-          this._ctx.fillStyle = "rgba(255, 255, 255, 1)";
-          this._ctx.font = "14px Arial";
-          this._ctx.fillText((this._container.width) + "x" + (this._container.height), (-this._resizeConstraint.side/6), (-this._resizeConstraint.side/1.8));
+      this._ctx.fillStyle = "rgba(0, 0, 0, 0.8)";
+      this._ctx.strokeStyle = "rgba(0, 0, 0, 0)";
+      this._ctx.lineWidth = 0;
+      this._ctx.setLineDash([0, 0]);
+      this._ctx.beginPath();
+      this._ctx.moveTo((-this._container.width / 2), (this._container.height / 2));
+      this._ctx.lineTo((this._container.width / 2), (this._container.height / 2));
+      this._ctx.lineTo((this._container.width/2), (-this._container.height/2));
+      this._ctx.lineTo((-this._container.width/2), (-this._container.height/2));
+      this._ctx.lineTo((-this._container.width / 2), (this._container.height / 2));
+      this._ctx.lineTo((-this._resizeConstraint.side / 2) - this._ctx.lineWidth, (-this._resizeConstraint.side / 2) - this._ctx.lineWidth);
+      this._ctx.lineTo((-this._resizeConstraint.side / 2) - this._ctx.lineWidth, (this._resizeConstraint.side / 2) - this._ctx.lineWidth / 2);
+      this._ctx.lineTo((this._resizeConstraint.side / 2) - this._ctx.lineWidth / 2, (this._resizeConstraint.side / 2) - this._ctx.lineWidth / 2);
+      this._ctx.lineTo((this._resizeConstraint.side / 2) - this._ctx.lineWidth /2, (-this._resizeConstraint.side / 2) - this._ctx.lineWidth );
+      this._ctx.lineTo((-this._resizeConstraint.side / 2) - this._ctx.lineWidth, (-this._resizeConstraint.side / 2) - this._ctx.lineWidth);
+      this._ctx.closePath();
+      this._ctx.stroke();
+      this._ctx.fill('evenodd');
+      this._ctx.fillStyle = "rgba(255, 255, 255, 1)";
+      this._ctx.font = "14px Arial";
+      this._ctx.fillText((this._container.width) + "x" + (this._container.height), (-this._resizeConstraint.side/6), (-this._resizeConstraint.side/1.8));
 
 
       // Восстановление состояния канваса, которое было до вызова ctx.save
