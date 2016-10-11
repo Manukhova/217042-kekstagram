@@ -111,35 +111,76 @@
 
       // Отрисовка прямоугольника, обозначающего область изображения после
       // кадрирования. Координаты задаются от центра.
-      this._ctx.strokeRect(
+     var widthOverlay = this._container.width / 2;
+     var heightOverlay = this._container.height / 2;
+     var sideRect = this._resizeConstraint.side / 2;
+     var TXTCONST = 10;
+     var TXTCONST2 = 1.85;
+
+     this._ctx.strokeRect(
           (-this._resizeConstraint.side / 2) - this._ctx.lineWidth / 2,
           (-this._resizeConstraint.side / 2) - this._ctx.lineWidth / 2,
           this._resizeConstraint.side - this._ctx.lineWidth / 2,
           this._resizeConstraint.side - this._ctx.lineWidth / 2);
 
-
-      this._ctx.fillStyle = "rgba(0, 0, 0, 0.8)";
-      this._ctx.strokeStyle = "rgba(0, 0, 0, 0)";
+      this._ctx.fillStyle = 'rgba(0, 0, 0, 0.8)';
+      this._ctx.strokeStyle = 'rgba(0, 0, 0, 0)';
       this._ctx.lineWidth = 0;
       this._ctx.setLineDash([0, 0]);
       this._ctx.beginPath();
-      this._ctx.moveTo((-this._container.width / 2), (this._container.height / 2));
-      this._ctx.lineTo((this._container.width / 2), (this._container.height / 2));
-      this._ctx.lineTo((this._container.width/2), (-this._container.height/2));
-      this._ctx.lineTo((-this._container.width/2), (-this._container.height/2));
-      this._ctx.lineTo((-this._container.width / 2), (this._container.height / 2));
-      this._ctx.lineTo((-this._resizeConstraint.side / 2) - this._ctx.lineWidth, (-this._resizeConstraint.side / 2) - this._ctx.lineWidth);
-      this._ctx.lineTo((-this._resizeConstraint.side / 2) - this._ctx.lineWidth, (this._resizeConstraint.side / 2) - this._ctx.lineWidth / 2);
-      this._ctx.lineTo((this._resizeConstraint.side / 2) - this._ctx.lineWidth / 2, (this._resizeConstraint.side / 2) - this._ctx.lineWidth / 2);
-      this._ctx.lineTo((this._resizeConstraint.side / 2) - this._ctx.lineWidth /2, (-this._resizeConstraint.side / 2) - this._ctx.lineWidth );
-      this._ctx.lineTo((-this._resizeConstraint.side / 2) - this._ctx.lineWidth, (-this._resizeConstraint.side / 2) - this._ctx.lineWidth);
+      this._ctx.moveTo(-widthOverlay, heightOverlay);
+      this._ctx.lineTo(widthOverlay, heightOverlay);
+      this._ctx.lineTo(widthOverlay, -heightOverlay);
+      this._ctx.lineTo(-widthOverlay, -heightOverlay);
+      this._ctx.lineTo(-widthOverlay, heightOverlay);
+      this._ctx.lineTo(-sideRect - this._ctx.lineWidth, -sideRect - this._ctx.lineWidth);
+      this._ctx.lineTo(-sideRect - this._ctx.lineWidth, sideRect - this._ctx.lineWidth / 2);
+      this._ctx.lineTo(sideRect - this._ctx.lineWidth / 2, sideRect - this._ctx.lineWidth / 2);
+      this._ctx.lineTo(sideRect - this._ctx.lineWidth /2, -sideRect - this._ctx.lineWidth );
+      this._ctx.lineTo(-sideRect - this._ctx.lineWidth, -sideRect - this._ctx.lineWidth);
       this._ctx.closePath();
       this._ctx.stroke();
       this._ctx.fill('evenodd');
-      this._ctx.fillStyle = "rgba(255, 255, 255, 1)";
-      this._ctx.font = "14px Arial";
-      this._ctx.fillText((this._container.width) + "x" + (this._container.height), (-this._resizeConstraint.side/6), (-this._resizeConstraint.side/1.8));
+      this._ctx.fillStyle = 'rgba(255, 255, 255, 1)';
+      this._ctx.font = '14px Arial';
+      this._ctx.fillText((this._container.width) + "x" + (this._container.height), (-this._resizeConstraint.side/TXTCONST), (-this._resizeConstraint.side/TXTCONST2));
 
+
+    /*  var centerX = (-this._resizeConstraint.side / 2) - this._ctx.lineWidth / 2;
+      var centerY = (this._resizeConstraint.side / 2) - this._ctx.lineWidth / 2;
+      var radius = 3;
+
+      while (centerX < ((this._resizeConstraint.side / 2) - this._ctx.lineWidth / 2)) {
+        this._ctx.beginPath();
+        this._ctx.arc(centerX, centerY, radius, 0, 360, false);
+        this._ctx.fillStyle = '#ffe753';
+        this._ctx.fill();
+        centerX += 10;
+      };
+
+      while (centerY > ((-this._resizeConstraint.side / 2) - this._ctx.lineWidth / 2)) {
+        this._ctx.beginPath();
+        this._ctx.arc(centerX, centerY, radius, 0, 360, false);
+        this._ctx.fillStyle = '#ffe753';
+        this._ctx.fill();
+        centerY = centerY - 10;
+      };
+
+      while (centerX > ((-this._resizeConstraint.side / 2) - this._ctx.lineWidth / 2)) {
+        this._ctx.beginPath();
+        this._ctx.arc(centerX, centerY, radius, 0, 360, false);
+        this._ctx.fillStyle = '#ffe753';
+        this._ctx.fill();
+        centerX = centerX - 10;
+      };
+
+      while (centerY < ((this._resizeConstraint.side / 2) - this._ctx.lineWidth / 2)) {
+        this._ctx.beginPath();
+        this._ctx.arc(centerX, centerY, radius, 0, 360, false);
+        this._ctx.fillStyle = '#ffe753';
+        this._ctx.fill();
+        centerY += 10;
+      };*/
 
       // Восстановление состояния канваса, которое было до вызова ctx.save
       // и последующего изменения системы координат. Нужно для того, чтобы
@@ -148,7 +189,6 @@
       // некорректно сработает даже очистка холста или нужно будет использовать
       // сложные рассчеты для координат прямоугольника, который нужно очистить.
       this._ctx.restore();
-
   },
 
     /**
