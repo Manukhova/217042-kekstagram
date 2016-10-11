@@ -97,10 +97,8 @@
       this._ctx.setLineDash([15, 10]);
       // Смещение первого штриха от начала линии.
       this._ctx.lineDashOffset = 7;
-
       // Сохранение состояния канваса.
       this._ctx.save();
-
       // Установка начальной точки системы координат в центр холста.
       this._ctx.translate(this._container.width / 2, this._container.height / 2);
 
@@ -113,11 +111,41 @@
 
       // Отрисовка прямоугольника, обозначающего область изображения после
       // кадрирования. Координаты задаются от центра.
+      var widthOverlay = this._container.width / 2;
+      var heightOverlay = this._container.height / 2;
+      var sideRect = (-this._resizeConstraint.side / 2) - this._ctx.lineWidth;
+      var sideRect2 = this._resizeConstraint.side / 2 - this._ctx.lineWidth / 2;
+      var X_DEFAULT_COOF = 10;
+      var Y_DEFAULT_COOF = 1.85;
+
       this._ctx.strokeRect(
           (-this._resizeConstraint.side / 2) - this._ctx.lineWidth / 2,
           (-this._resizeConstraint.side / 2) - this._ctx.lineWidth / 2,
           this._resizeConstraint.side - this._ctx.lineWidth / 2,
           this._resizeConstraint.side - this._ctx.lineWidth / 2);
+
+      this._ctx.fillStyle = 'rgba(0, 0, 0, 0.8)';
+      this._ctx.strokeStyle = 'rgba(0, 0, 0, 0)';
+      this._ctx.lineWidth = 0;
+      this._ctx.setLineDash([0, 0]);
+      this._ctx.beginPath();
+      this._ctx.moveTo(-widthOverlay, heightOverlay);
+      this._ctx.lineTo(widthOverlay, heightOverlay);
+      this._ctx.lineTo(widthOverlay, -heightOverlay);
+      this._ctx.lineTo(-widthOverlay, -heightOverlay);
+      this._ctx.lineTo(-widthOverlay, heightOverlay);
+      this._ctx.lineTo(sideRect, sideRect);
+      this._ctx.lineTo(sideRect, sideRect2);
+      this._ctx.lineTo(sideRect2, sideRect2);
+      this._ctx.lineTo(sideRect2, sideRect);
+      this._ctx.lineTo(sideRect, sideRect);
+      this._ctx.closePath();
+      this._ctx.stroke();
+      this._ctx.fill('evenodd');
+      this._ctx.fillStyle = 'rgba(255, 255, 255, 1)';
+      this._ctx.font = '14px Arial';
+      this._ctx.fillText((this._container.width) + 'x' + (this._container.height), (-this._resizeConstraint.side / X_DEFAULT_COOF), (-this._resizeConstraint.side / Y_DEFAULT_COOF));
+
 
       // Восстановление состояния канваса, которое было до вызова ctx.save
       // и последующего изменения системы координат. Нужно для того, чтобы
