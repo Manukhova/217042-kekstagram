@@ -147,7 +147,6 @@
       this._ctx.fillText((this._container.width) + 'x' + (this._container.height), (-this._resizeConstraint.side / X_DEFAULT_COOF), (-this._resizeConstraint.side / Y_DEFAULT_COOF));
 
 
-  
       // Восстановление состояния канваса, которое было до вызова ctx.save
       // и последующего изменения системы координат. Нужно для того, чтобы
       // следующий кадр рисовался с привычной системой координат, где точка
