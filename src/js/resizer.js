@@ -115,8 +115,8 @@
       var heightOverlay = this._container.height / 2;
       var sideRect = (-this._resizeConstraint.side / 2) - this._ctx.lineWidth;
       var sideRect2 = this._resizeConstraint.side / 2 - this._ctx.lineWidth / 2;
-      var TXTCONST = 10;
-      var TXTCONST2 = 1.85;
+      var X_DEFAULT_COOF = 10;
+      var Y_DEFAULT_COOF = 1.85;
 
       this._ctx.strokeRect(
           (-this._resizeConstraint.side / 2) - this._ctx.lineWidth / 2,
@@ -144,14 +144,14 @@
       this._ctx.fill('evenodd');
       this._ctx.fillStyle = 'rgba(255, 255, 255, 1)';
       this._ctx.font = '14px Arial';
-      this._ctx.fillText((this._container.width) + 'x' + (this._container.height), (-this._resizeConstraint.side / TXTCONST), (-this._resizeConstraint.side / TXTCONST2));
+      this._ctx.fillText((this._container.width) + 'x' + (this._container.height), (-this._resizeConstraint.side / X_DEFAULT_COOF), (-this._resizeConstraint.side / Y_DEFAULT_COOF));
 
 
     /*  var centerX = (-this._resizeConstraint.side / 2) - this._ctx.lineWidth / 2;
       var centerY = (this._resizeConstraint.side / 2) - this._ctx.lineWidth / 2;
       var radius = 3;
 
-      while (centerX < ((this._resizeConstraint.side / 2) - this._ctx.lineWidth / 2)) {
+      while (centerX < (sideRect2) {
         this._ctx.beginPath();
         this._ctx.arc(centerX, centerY, radius, 0, 360, false);
         this._ctx.fillStyle = '#ffe753';
@@ -175,7 +175,7 @@
         centerX = centerX - 10;
       };
 
-      while (centerY < ((this._resizeConstraint.side / 2) - this._ctx.lineWidth / 2)) {
+      while (centerY < (sideRect2) {
         this._ctx.beginPath();
         this._ctx.arc(centerX, centerY, radius, 0, 360, false);
         this._ctx.fillStyle = '#ffe753';

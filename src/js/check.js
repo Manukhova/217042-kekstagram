@@ -26,4 +26,4 @@ function getMessage(a, b) {
   }
 };
 
-getMessage();
+getMessage()
