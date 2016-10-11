@@ -153,7 +153,7 @@
         this._ctx.fillStyle = '#ffe753';
         this._ctx.fill();
         centerX += 10;
-      };
+      }
 
       while (centerY > DOT_CONSTRAINT_2) {
         this._ctx.beginPath();
@@ -161,7 +161,7 @@
         this._ctx.fillStyle = '#ffe753';
         this._ctx.fill();
         centerY = centerY - 10;
-      };
+      }
 
       while (centerX > DOT_CONSTRAINT_2) {
         this._ctx.beginPath();
@@ -169,7 +169,7 @@
         this._ctx.fillStyle = '#ffe753';
         this._ctx.fill();
         centerX = centerX - 10;
-      };
+      }
 
       while (centerY < DOT_CONSTRAINT_1) {
         this._ctx.beginPath();
@@ -177,7 +177,7 @@
         this._ctx.fillStyle = '#ffe753';
         this._ctx.fill();
         centerY += 10;
-      };
+      }
 
       // Восстановление состояния канваса, которое было до вызова ctx.save
       // и последующего изменения системы координат. Нужно для того, чтобы
