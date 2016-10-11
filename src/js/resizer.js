@@ -147,42 +147,7 @@
       this._ctx.fillText((this._container.width) + 'x' + (this._container.height), (-this._resizeConstraint.side / X_DEFAULT_COOF), (-this._resizeConstraint.side / Y_DEFAULT_COOF));
 
 
-    /*  var centerX = (-this._resizeConstraint.side / 2) - this._ctx.lineWidth / 2;
-      var centerY = (this._resizeConstraint.side / 2) - this._ctx.lineWidth / 2;
-      var radius = 3;
-
-      while (centerX < (sideRect2) {
-        this._ctx.beginPath();
-        this._ctx.arc(centerX, centerY, radius, 0, 360, false);
-        this._ctx.fillStyle = '#ffe753';
-        this._ctx.fill();
-        centerX += 10;
-      };
-
-      while (centerY > ((-this._resizeConstraint.side / 2) - this._ctx.lineWidth / 2)) {
-        this._ctx.beginPath();
-        this._ctx.arc(centerX, centerY, radius, 0, 360, false);
-        this._ctx.fillStyle = '#ffe753';
-        this._ctx.fill();
-        centerY = centerY - 10;
-      };
-
-      while (centerX > ((-this._resizeConstraint.side / 2) - this._ctx.lineWidth / 2)) {
-        this._ctx.beginPath();
-        this._ctx.arc(centerX, centerY, radius, 0, 360, false);
-        this._ctx.fillStyle = '#ffe753';
-        this._ctx.fill();
-        centerX = centerX - 10;
-      };
-
-      while (centerY < (sideRect2) {
-        this._ctx.beginPath();
-        this._ctx.arc(centerX, centerY, radius, 0, 360, false);
-        this._ctx.fillStyle = '#ffe753';
-        this._ctx.fill();
-        centerY += 10;
-      };*/
-
+  
       // Восстановление состояния канваса, которое было до вызова ctx.save
       // и последующего изменения системы координат. Нужно для того, чтобы
       // следующий кадр рисовался с привычной системой координат, где точка
