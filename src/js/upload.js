@@ -78,8 +78,18 @@
     resizeX.max = currentWidth / 2;
     resizeY.max = currentHeight / 2;
     resizeSize.max = Math.min(currentWidth, currentHeight);
+    var valueX = parseInt(resizeX.value, 10);
+    var valueY = parseInt(resizeY.value, 10);
+    var valueSize = parseInt(resizeSize.value, 10);
+    if (isNaN(valueX) === true) {
+      valueX = 0;
+    } if (isNaN(valueY) === true) {
+      valueY = 0;
+    } if (isNaN(valueSize) === true) {
+      valueSize = 0;
+    }
 
-    if ((resizeX.value + resizeSize.value <= currentWidth) && (resizeY.value + resizeSize.value <= currentHeight)) {
+    if ((valueX + valueSize <= currentWidth) && (valueY + valueSize <= currentHeight)) {
       return true;
     } else {
       resizeFwd.disabled = true;
