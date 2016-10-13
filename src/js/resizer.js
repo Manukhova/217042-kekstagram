@@ -143,7 +143,7 @@
 
       var centerX = (-this._resizeConstraint.side / 2) - this._ctx.lineWidth / 2;
       var centerY = (this._resizeConstraint.side / 2) - this._ctx.lineWidth / 2;
-      var step = 12;
+      var step = 9;
       var DOT_CONSTRAINT_1 = (this._resizeConstraint.side / 2) - this._ctx.lineWidth / 2;
       var DOT_CONSTRAINT_2 = (-this._resizeConstraint.side / 2) - this._ctx.lineWidth / 2;
 
@@ -165,10 +165,10 @@
       while (centerY > DOT_CONSTRAINT_2) {
         this._ctx.beginPath();
         this._ctx.moveTo(centerX, centerY);
-        centerX = centerX - step;
+        centerX += step;
         centerY = centerY - step;
         this._ctx.lineTo(centerX, centerY);
-        centerX += step;
+        centerX = centerX - step;
         centerY = centerY - step;
         this._ctx.lineTo(centerX, centerY);
         centerY = centerY + this._ctx.lineWidth / 2;
@@ -180,10 +180,10 @@
         this._ctx.beginPath();
         this._ctx.moveTo(centerX, centerY);
         centerX = centerX - step;
-        centerY += step;
+        centerY = centerY - step;
         this._ctx.lineTo(centerX, centerY);
         centerX = centerX - step;
-        centerY = centerY - step;
+        centerY += step;
         this._ctx.lineTo(centerX, centerY);
         centerX = centerX + this._ctx.lineWidth / 2;
         this._ctx.strokeStyle = '#ffe753';
