@@ -89,7 +89,7 @@
       // чего-либо с другой обводкой.
 
       // Толщина линии.
-      this._ctx.lineWidth = 6;
+      this._ctx.lineWidth = 4;
       // Цвет обводки.
       this._ctx.strokeStyle = '#ffe753';
       // Размер штрихов. Первый элемент массива задает длину штриха, второй
@@ -143,40 +143,65 @@
 
       var centerX = (-this._resizeConstraint.side / 2) - this._ctx.lineWidth / 2;
       var centerY = (this._resizeConstraint.side / 2) - this._ctx.lineWidth / 2;
-      var radius = 3;
+      var step = 9;
       var DOT_CONSTRAINT_1 = (this._resizeConstraint.side / 2) - this._ctx.lineWidth / 2;
       var DOT_CONSTRAINT_2 = (-this._resizeConstraint.side / 2) - this._ctx.lineWidth / 2;
 
+
       while (centerX < DOT_CONSTRAINT_1) {
         this._ctx.beginPath();
-        this._ctx.arc(centerX, centerY, radius, 0, 360, false);
-        this._ctx.fillStyle = '#ffe753';
-        this._ctx.fill();
-        centerX += 10;
+        this._ctx.moveTo(centerX, centerY);
+        centerX += step;
+        centerY += step;
+        this._ctx.lineTo(centerX, centerY);
+        centerX += step;
+        centerY = centerY - step;
+        this._ctx.lineTo(centerX, centerY);
+        centerX = centerX - this._ctx.lineWidth / 2;
+        this._ctx.strokeStyle = '#ffe753';
+        this._ctx.stroke();
       }
 
       while (centerY > DOT_CONSTRAINT_2) {
         this._ctx.beginPath();
-        this._ctx.arc(centerX, centerY, radius, 0, 360, false);
-        this._ctx.fillStyle = '#ffe753';
-        this._ctx.fill();
-        centerY = centerY - 10;
+        this._ctx.moveTo(centerX, centerY);
+        centerX += step;
+        centerY = centerY - step;
+        this._ctx.lineTo(centerX, centerY);
+        centerX = centerX - step;
+        centerY = centerY - step;
+        this._ctx.lineTo(centerX, centerY);
+        centerY = centerY + this._ctx.lineWidth / 2;
+        this._ctx.strokeStyle = '#ffe753';
+        this._ctx.stroke();
       }
 
       while (centerX > DOT_CONSTRAINT_2) {
         this._ctx.beginPath();
-        this._ctx.arc(centerX, centerY, radius, 0, 360, false);
-        this._ctx.fillStyle = '#ffe753';
-        this._ctx.fill();
-        centerX = centerX - 10;
+        this._ctx.moveTo(centerX, centerY);
+        centerX = centerX - step;
+        centerY = centerY - step;
+        this._ctx.lineTo(centerX, centerY);
+        centerX = centerX - step;
+        centerY += step;
+        this._ctx.lineTo(centerX, centerY);
+        centerX = centerX + this._ctx.lineWidth / 2;
+        this._ctx.strokeStyle = '#ffe753';
+        this._ctx.stroke();
       }
 
       while (centerY < DOT_CONSTRAINT_1) {
         this._ctx.beginPath();
-        this._ctx.arc(centerX, centerY, radius, 0, 360, false);
-        this._ctx.fillStyle = '#ffe753';
-        this._ctx.fill();
-        centerY += 10;
+        this._ctx.moveTo(centerX, centerY);
+        centerX = centerX - step;
+        centerY += step;
+        this._ctx.lineTo(centerX, centerY);
+        centerX += step;
+        centerY += step;
+        this._ctx.lineTo(centerX, centerY);
+        centerY = centerY - this._ctx.lineWidth / 2;
+        this._ctx.strokeStyle = '#ffe753';
+        this._ctx.stroke();
       }
 
       // Восстановление состояния канваса, которое было до вызова ctx.save
