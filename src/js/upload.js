@@ -72,7 +72,26 @@
    * @return {boolean}
    */
   var resizeFormIsValid = function() {
-    return true;
+    var resizeX = document.querySelector('#resize-x');
+    var resizeY = document.querySelector('#resize-y');
+    var resizeSize = document.querySelector('#resize-size');
+    var resizeFwd = document.querySelector('#resize-fwd');
+    var currentWidth = currentResizer._image.naturalWidth;
+    var currentHeight = currentResizer._image.naturalHeight;
+
+    resizeX.min = 0;
+    resizeY.min = 0;
+    resizeSize.min = 0;
+    resizeX.max = currentWidth / 2;
+    resizeY.max = currentHeight / 2;
+    resizeSize.max = Math.min(currentWidth, currentHeight);
+
+    if ((resizeX.value + resizeSize.value <= currentWidth) && (resizeY.value + resizeSize.value <= currentHeight)) {
+      return true;
+    } else {
+      resizeFwd.disabled = true;
+      return false;
+    }
   };
 
   /**
