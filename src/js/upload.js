@@ -73,11 +73,7 @@
    */
 
   var resizeFormIsValid = function() {
-    var currentWidth = currentResizer._image.naturalWidth;
-    var currentHeight = currentResizer._image.naturalHeight;
-    resizeX.max = currentWidth / 2;
-    resizeY.max = currentHeight / 2;
-    resizeSize.max = Math.min(currentWidth, currentHeight);
+
     var valueX = parseInt(resizeX.value, 10);
     var valueY = parseInt(resizeY.value, 10);
     var valueSize = parseInt(resizeSize.value, 10);
@@ -162,6 +158,7 @@
    * @param {Event} evt
    */
   uploadForm.onchange = function(evt) {
+    console.log('Привет1');
     var element = evt.target;
     if (element.id === 'upload-file') {
       // Проверка типа загружаемого файла, тип должен быть изображением
@@ -176,6 +173,12 @@
 
           currentResizer = new Resizer(fileReader.result);
           currentResizer.setElement(resizeForm);
+          
+          var currentWidth = currentResizer._image.naturalWidth;
+          var currentHeight = currentResizer._image.naturalHeight;
+          resizeX.max = currentWidth / 2;
+          resizeY.max = currentHeight / 2;
+          resizeSize.max = Math.min(currentWidth, currentHeight);
           uploadMessage.classList.add('invisible');
 
           uploadForm.classList.add('invisible');
@@ -200,6 +203,7 @@
   resizeX.min = 0;
   resizeY.min = 0;
   resizeSize.min = 0;
+  console.log('Привет2');
 
 
   /**
@@ -237,6 +241,14 @@
 
       resizeForm.classList.add('invisible');
       filterForm.classList.remove('invisible');
+      filterMap = {
+        'none': 'filter-none',
+        'chrome': 'filter-chrome',
+        'sepia': 'filter-sepia',
+        'marvin': 'filter-marvin'
+      };
+      var selectedFilter = Cookies.get('upload-filter');
+      filterImage.className = 'filter-image-preview ' + filterMap[selectedFilter];
     }
   };
 
@@ -258,7 +270,15 @@
    */
   filterForm.onsubmit = function(evt) {
     evt.preventDefault();
-
+    var selectedFilter = [].filter.call(filterForm['upload-filter'], function(item) {
+      return item.checked;
+    })[0].value;
+    var now = new Date();
+    var birthday = new Date(2015, 11, 9);
+    var expDate = new Date();
+    expDate.setDate(expDate.getDate() + ((now - birthday) / (24 * 60 * 60 * 1000)));
+    Cookies.set('upload-filter', selectedFilter, { expires: ((now - birthday) / (24 * 60 * 60 * 1000)) });
+    /*document.cookie = 'upload-filter = ' + selectedFilter + ', expires=' + expDate.toUTCString();*/
     cleanupResizer();
     updateBackground();
 
@@ -286,6 +306,7 @@
     var selectedFilter = [].filter.call(filterForm['upload-filter'], function(item) {
       return item.checked;
     })[0].value;
+
 
     // Класс перезаписывается, а не обновляется через classList потому что нужно
     // убрать предыдущий примененный класс. Для этого нужно или запоминать его
