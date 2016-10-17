@@ -33,12 +33,13 @@
   /**
    * @type {Object.<string, string>}
    */
-  var filterMap = {
+  var FILTERMAP = {
     'none': 'filter-none',
     'chrome': 'filter-chrome',
     'sepia': 'filter-sepia',
     'marvin': 'filter-marvin'
   };
+
 
   /**
    * Объект, который занимается кадрированием изображения.
@@ -80,18 +81,23 @@
    */
 
   var resizeFormIsValid = function() {
+
     var valueX = parseInt(resizeX.value, 10);
     var valueY = parseInt(resizeY.value, 10);
     var valueSize = parseInt(resizeSize.value, 10);
     if (isNaN(valueX)) {
       valueX = 0;
-    } if (isNaN(valueY)) {
+    }
+    if (isNaN(valueY)) {
       valueY = 0;
-    } if (isNaN(valueSize)) {
+    }
+    if (isNaN(valueSize)) {
       valueSize = 0;
     }
+    var dataEntryConstrictX = valueX + valueSize <= currentResizer._image.naturalWidth;
+    var dataEntryConstrictY = valueX + valueSize <= currentResizer._image.naturalHeight;
 
-    if ((valueX + valueSize <= currentResizer._image.naturalWidth) && (valueY + valueSize <= currentResizer._image.naturalHeight)) {
+    if (dataEntryConstrictX && dataEntryConstrictY) {
       return true;
     } else {
       resizeFwd.disabled = true;
@@ -178,9 +184,11 @@
 
           currentResizer = new Resizer(fileReader.result);
           currentResizer.setElement(resizeForm);
-          resizeX.max = currentResizer._image.naturalWidth / 2;
-          resizeY.max = currentResizer._image.naturalHeight / 2;
-          resizeSize.max = Math.min(currentResizer._image.naturalWidth, currentResizer._image.naturalHeight);
+          var currentWidth = currentResizer._image.naturalWidth;
+          var currentHeight = currentResizer._image.naturalHeight;
+          resizeX.max = currentWidth / 2;
+          resizeY.max = currentHeight / 2;
+          resizeSize.max = Math.min(currentWidth, currentHeight);
           uploadMessage.classList.add('invisible');
 
           uploadForm.classList.add('invisible');
@@ -242,11 +250,7 @@
 
       resizeForm.classList.add('invisible');
       filterForm.classList.remove('invisible');
-      selectedFilter = Cookies.get('upload-filter');
-      if (typeof selectedFilter === 'undefined') {
-        selectedFilter = 'none';
-      }
-      filterImage.className = 'filter-image-preview ' + filterMap[selectedFilter];
+
     }
   };
 
@@ -270,9 +274,7 @@
   filterForm.onsubmit = function(evt) {
     evt.preventDefault();
 
-    var now = new Date();
-    var birthday = new Date(2015, 11, 9);
-    Cookies.set('upload-filter', selectedFilter, { expires: ((now - birthday) / (24 * 60 * 60 * 1000)) });
+
 
     cleanupResizer();
     updateBackground();
@@ -294,7 +296,7 @@
     // Класс перезаписывается, а не обновляется через classList потому что нужно
     // убрать предыдущий примененный класс. Для этого нужно или запоминать его
     // состояние или просто перезаписывать.
-    filterImage.className = 'filter-image-preview ' + filterMap[selectedFilter];
+    filterImage.className = 'filter-image-preview ' + FILTERMAP[selectedFilter];
   };
 
   cleanupResizer();
