@@ -246,7 +246,11 @@
 
       resizeForm.classList.add('invisible');
       filterForm.classList.remove('invisible');
-
+      selectedFilter = Cookies.get('upload-filter');
+      if (!filterCookie) {
+        selectedFilter = 'none';
+      }
+      filterImage.className = 'filter-image-preview ' + FILTER_MAP[selectedFilter];
     }
   };
 
@@ -266,9 +270,13 @@
    * записав сохраненный фильтр в cookie.
    * @param {Event} evt
    */
-
+  var filterCookie;
   filterForm.onsubmit = function(evt) {
     evt.preventDefault();
+
+    var now = Date.now();
+    var birthday = new Date(2015, 11, 9);
+    filterCookie = Cookies.set('upload-filter', selectedFilter, { expires: ((now - birthday) / (24 * 60 * 60 * 1000)) });
 
     cleanupResizer();
     updateBackground();
