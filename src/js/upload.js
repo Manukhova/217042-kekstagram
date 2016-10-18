@@ -33,13 +33,21 @@
   /**
    * @type {Object.<string, string>}
    */
-  var filterMap;
+  var FILTER_MAP = {
+    'none': 'filter-none',
+    'chrome': 'filter-chrome',
+    'sepia': 'filter-sepia',
+    'marvin': 'filter-marvin'
+  };
+
 
   /**
    * Объект, который занимается кадрированием изображения.
    * @type {Resizer}
    */
   var currentResizer;
+
+  var selectedFilter = 'none';
 
   /**
    * Удаляет текущий объект {@link Resizer}, чтобы создать новый с другим
@@ -71,8 +79,26 @@
    * Проверяет, валидны ли данные, в форме кадрирования.
    * @return {boolean}
    */
+
   var resizeFormIsValid = function() {
-    return true;
+
+    var valueX = parseInt(resizeX.value, 10);
+    var valueY = parseInt(resizeY.value, 10);
+    var valueSize = parseInt(resizeSize.value, 10);
+    if (isNaN(valueX)) {
+      valueX = 0;
+    }
+    if (isNaN(valueY)) {
+      valueY = 0;
+    }
+    if (isNaN(valueSize)) {
+      valueSize = 0;
+    }
+    var sumNotLargerWidth = valueX + valueSize <= currentResizer._image.naturalWidth;
+    var sumNotLargerHeight = valueX + valueSize <= currentResizer._image.naturalHeight;
+
+    resizeFwd.disabled = !(sumNotLargerWidth && sumNotLargerHeight);
+    return (sumNotLargerWidth && sumNotLargerHeight);
   };
 
   /**
@@ -154,6 +180,11 @@
 
           currentResizer = new Resizer(fileReader.result);
           currentResizer.setElement(resizeForm);
+          var currentWidth = currentResizer._image.naturalWidth;
+          var currentHeight = currentResizer._image.naturalHeight;
+          resizeX.max = currentWidth / 2;
+          resizeY.max = currentHeight / 2;
+          resizeSize.max = Math.min(currentWidth, currentHeight);
           uploadMessage.classList.add('invisible');
 
           uploadForm.classList.add('invisible');
@@ -169,6 +200,16 @@
       }
     }
   };
+
+  var resizeX = document.querySelector('#resize-x');
+  var resizeY = document.querySelector('#resize-y');
+  var resizeSize = document.querySelector('#resize-size');
+  var resizeFwd = document.querySelector('#resize-fwd');
+
+  resizeX.min = 0;
+  resizeY.min = 0;
+  resizeSize.min = 0;
+
 
   /**
    * Обработка сброса формы кадрирования. Возвращает в начальное состояние
@@ -205,6 +246,7 @@
 
       resizeForm.classList.add('invisible');
       filterForm.classList.remove('invisible');
+
     }
   };
 
@@ -224,6 +266,7 @@
    * записав сохраненный фильтр в cookie.
    * @param {Event} evt
    */
+
   filterForm.onsubmit = function(evt) {
     evt.preventDefault();
 
@@ -239,26 +282,15 @@
    * выбранному значению в форме.
    */
   filterForm.onchange = function() {
-    if (!filterMap) {
-      // Ленивая инициализация. Объект не создается до тех пор, пока
-      // не понадобится прочитать его в первый раз, а после этого запоминается
-      // навсегда.
-      filterMap = {
-        'none': 'filter-none',
-        'chrome': 'filter-chrome',
-        'sepia': 'filter-sepia',
-        'marvin': 'filter-marvin'
-      };
-    }
 
-    var selectedFilter = [].filter.call(filterForm['upload-filter'], function(item) {
+    selectedFilter = [].filter.call(filterForm['upload-filter'], function(item) {
       return item.checked;
     })[0].value;
 
     // Класс перезаписывается, а не обновляется через classList потому что нужно
     // убрать предыдущий примененный класс. Для этого нужно или запоминать его
     // состояние или просто перезаписывать.
-    filterImage.className = 'filter-image-preview ' + filterMap[selectedFilter];
+    filterImage.className = 'filter-image-preview ' + FILTER_MAP[selectedFilter];
   };
 
   cleanupResizer();
