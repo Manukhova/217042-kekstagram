@@ -33,7 +33,7 @@
   /**
    * @type {Object.<string, string>}
    */
-  var FILTERMAP = {
+  var FILTER_MAP = {
     'none': 'filter-none',
     'chrome': 'filter-chrome',
     'sepia': 'filter-sepia',
@@ -94,15 +94,11 @@
     if (isNaN(valueSize)) {
       valueSize = 0;
     }
-    var dataEntryConstrictX = valueX + valueSize <= currentResizer._image.naturalWidth;
-    var dataEntryConstrictY = valueX + valueSize <= currentResizer._image.naturalHeight;
+    var sumNotLargerWidth = valueX + valueSize <= currentResizer._image.naturalWidth;
+    var sumNotLargerHeight = valueX + valueSize <= currentResizer._image.naturalHeight;
 
-    if (dataEntryConstrictX && dataEntryConstrictY) {
-      return true;
-    } else {
-      resizeFwd.disabled = true;
-      return false;
-    }
+    resizeFwd.disabled = !(sumNotLargerWidth && sumNotLargerHeight);
+    return (sumNotLargerWidth && sumNotLargerHeight);
   };
 
   /**
@@ -274,8 +270,6 @@
   filterForm.onsubmit = function(evt) {
     evt.preventDefault();
 
-
-
     cleanupResizer();
     updateBackground();
 
@@ -296,7 +290,7 @@
     // Класс перезаписывается, а не обновляется через classList потому что нужно
     // убрать предыдущий примененный класс. Для этого нужно или запоминать его
     // состояние или просто перезаписывать.
-    filterImage.className = 'filter-image-preview ' + FILTERMAP[selectedFilter];
+    filterImage.className = 'filter-image-preview ' + FILTER_MAP[selectedFilter];
   };
 
   cleanupResizer();
