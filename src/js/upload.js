@@ -1,4 +1,5 @@
 /* global Resizer: true */
+/* global Cookies: true */
 
 /**
  * @fileoverview
@@ -271,11 +272,18 @@
    * @param {Event} evt
    */
   var filterCookie;
+
   filterForm.onsubmit = function(evt) {
     evt.preventDefault();
 
-    var now = Date.now();
-    var birthday = new Date(2015, 11, 9);
+    var now = new Date();
+    var birthday = new Date();
+    birthday.setMonth(11, 9);
+    if (birthday - now >= 0) {
+      var newYear = birthday.getFullYear() - 1;
+      birthday.setYear(newYear);
+    }
+
     filterCookie = Cookies.set('upload-filter', selectedFilter, { expires: ((now - birthday) / (24 * 60 * 60 * 1000)) });
 
     cleanupResizer();
