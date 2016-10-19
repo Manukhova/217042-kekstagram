@@ -1,4 +1,5 @@
 /* global Resizer: true */
+/* global Cookies: true */
 
 /**
  * @fileoverview
@@ -246,7 +247,11 @@
 
       resizeForm.classList.add('invisible');
       filterForm.classList.remove('invisible');
-
+      selectedFilter = Cookies.get('upload-filter');
+      if (!filterCookie) {
+        selectedFilter = 'none';
+      }
+      filterImage.className = 'filter-image-preview ' + FILTER_MAP[selectedFilter];
     }
   };
 
@@ -266,9 +271,20 @@
    * записав сохраненный фильтр в cookie.
    * @param {Event} evt
    */
+  var filterCookie;
 
   filterForm.onsubmit = function(evt) {
     evt.preventDefault();
+
+    var now = new Date();
+    var birthday = new Date();
+    birthday.setMonth(11, 9);
+    if (birthday - now >= 0) {
+      var newYear = birthday.getFullYear() - 1;
+      birthday.setYear(newYear);
+    }
+
+    filterCookie = Cookies.set('upload-filter', selectedFilter, { expires: ((now - birthday) / (24 * 60 * 60 * 1000)) });
 
     cleanupResizer();
     updateBackground();
