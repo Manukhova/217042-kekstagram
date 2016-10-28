@@ -8,6 +8,7 @@
 'use strict';
 
 var Resizer = require('./resizer');
+var Cookies = require('./cookie');
 
 
   /** @enum {string} */
@@ -35,13 +36,20 @@ var fileRegExp = new RegExp('^image/(' + Object.keys(FileType).join('|').replace
   /**
    * @type {Object.<string, string>}
    */
-var filterMap;
+var FILTER_MAP = {
+  'none': 'filter-none',
+  'chrome': 'filter-chrome',
+  'sepia': 'filter-sepia',
+  'marvin': 'filter-marvin'
+};
+
 
   /**
    * Объект, который занимается кадрированием изображения.
    * @type {Resizer}
    */
 var currentResizer;
+var selectedFilter = 'none';
 
   /**
    * Удаляет текущий объект {@link Resizer}, чтобы создать новый с другим
@@ -73,8 +81,26 @@ var updateBackground = function() {
    * Проверяет, валидны ли данные, в форме кадрирования.
    * @return {boolean}
    */
+
 var resizeFormIsValid = function() {
-  return true;
+
+  var valueX = parseInt(resizeX.value, 10);
+  var valueY = parseInt(resizeY.value, 10);
+  var valueSize = parseInt(resizeSize.value, 10);
+  if (isNaN(valueX)) {
+    valueX = 0;
+  }
+  if (isNaN(valueY)) {
+    valueY = 0;
+  }
+  if (isNaN(valueSize)) {
+    valueSize = 0;
+  }
+  var sumNotLargerWidth = valueX + valueSize <= currentResizer._image.naturalWidth;
+  var sumNotLargerHeight = valueX + valueSize <= currentResizer._image.naturalHeight;
+
+  resizeFwd.disabled = !(sumNotLargerWidth && sumNotLargerHeight);
+  return (sumNotLargerWidth && sumNotLargerHeight);
 };
 
   /**
@@ -117,6 +143,7 @@ var showMessage = function(action, message) {
     case Action.UPLOADING:
       message = message || 'Кексограмим&hellip;';
       break;
+
     case Action.ERROR:
       isError = true;
       message = message || 'Неподдерживаемый формат файла<br> <a href="' + document.location + '">Попробовать еще раз</a>.';
@@ -143,18 +170,25 @@ var hideMessage = function() {
 uploadForm.onchange = function(evt) {
   var element = evt.target;
   if (element.id === 'upload-file') {
-      // Проверка типа загружаемого файла, тип должен быть изображением
+    // Проверка типа загружаемого файла, тип должен быть изображением
       // одного из форматов: JPEG, PNG, GIF или SVG.
     if (fileRegExp.test(element.files[0].type)) {
       var fileReader = new FileReader();
 
       showMessage(Action.UPLOADING);
+
       fileReader.onload = function() {
         cleanupResizer();
 
         currentResizer = new Resizer(fileReader.result);
         currentResizer.setElement(resizeForm);
+        var currentWidth = currentResizer._image.naturalWidth;
+        var currentHeight = currentResizer._image.naturalHeight;
+        resizeX.max = currentWidth / 2;
+        resizeY.max = currentHeight / 2;
+        resizeSize.max = Math.min(currentWidth, currentHeight);
         uploadMessage.classList.add('invisible');
+
         uploadForm.classList.add('invisible');
         resizeForm.classList.remove('invisible');
 
@@ -168,6 +202,16 @@ uploadForm.onchange = function(evt) {
     }
   }
 };
+
+var resizeX = document.querySelector('#resize-x');
+var resizeY = document.querySelector('#resize-y');
+var resizeSize = document.querySelector('#resize-size');
+var resizeFwd = document.querySelector('#resize-fwd');
+
+resizeX.min = 0;
+resizeY.min = 0;
+resizeSize.min = 0;
+
 
   /**
    * Обработка сброса формы кадрирования. Возвращает в начальное состояние
@@ -201,9 +245,13 @@ resizeForm.onsubmit = function(evt) {
     }
 
     filterImage.src = image;
-
     resizeForm.classList.add('invisible');
     filterForm.classList.remove('invisible');
+    selectedFilter = Cookies.get('upload-filter');
+    if (!filterCookie) {
+      selectedFilter = 'none';
+    }
+    filterImage.className = 'filter-image-preview ' + FILTER_MAP[selectedFilter];
   }
 };
 
@@ -223,8 +271,19 @@ filterForm.onreset = function(evt) {
    * записав сохраненный фильтр в cookie.
    * @param {Event} evt
    */
+var filterCookie;
 filterForm.onsubmit = function(evt) {
   evt.preventDefault();
+
+  var now = new Date();
+  var birthday = new Date();
+  birthday.setMonth(11, 9);
+  if (birthday - now >= 0) {
+    var newYear = birthday.getFullYear() - 1;
+    birthday.setYear(newYear);
+  }
+
+  filterCookie = Cookies.set('upload-filter', selectedFilter, { expires: ((now - birthday) / (24 * 60 * 60 * 1000)) });
 
   cleanupResizer();
   updateBackground();
@@ -238,26 +297,15 @@ filterForm.onsubmit = function(evt) {
    * выбранному значению в форме.
    */
 filterForm.onchange = function() {
-  if (!filterMap) {
-      // Ленивая инициализация. Объект не создается до тех пор, пока
-      // не понадобится прочитать его в первый раз, а после этого запоминается
-      // навсегда.
-    filterMap = {
-      'none': 'filter-none',
-      'chrome': 'filter-chrome',
-      'sepia': 'filter-sepia',
-      'marvin': 'filter-marvin'
-    };
-  }
 
-  var selectedFilter = [].filter.call(filterForm['upload-filter'], function(item) {
+  selectedFilter = [].filter.call(filterForm['upload-filter'], function(item) {
     return item.checked;
   })[0].value;
 
     // Класс перезаписывается, а не обновляется через classList потому что нужно
     // убрать предыдущий примененный класс. Для этого нужно или запоминать его
     // состояние или просто перезаписывать.
-  filterImage.className = 'filter-image-preview ' + filterMap[selectedFilter];
+  filterImage.className = 'filter-image-preview ' + FILTER_MAP[selectedFilter];
 };
 
 cleanupResizer();

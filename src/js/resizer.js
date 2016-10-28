@@ -1,6 +1,5 @@
 'use strict';
 
-module.exports = Resizer;
   /**
    * @constructor
    * @param {string} image
@@ -390,3 +389,5 @@ var Coordinate = function(x, y) {
   this.x = x;
   this.y = y;
 };
+
+module.exports = Resizer;

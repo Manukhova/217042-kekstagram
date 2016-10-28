@@ -1,7 +1,5 @@
 'use strict';
 
-module.exports = load;
-
 var load = function(url, callback, callbackName) {
   if (!callbackName) {
     callbackName = 'cb' + Date.now();
@@ -15,3 +13,5 @@ var load = function(url, callback, callbackName) {
   script.src = url + '?callback=' + callbackName;
   document.body.appendChild(script);
 };
+
+module.exports = load;
