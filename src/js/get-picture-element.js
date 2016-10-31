@@ -17,8 +17,13 @@ var getPictureElement = function(picture, i) {
     pictureElement.classList.add('picture-load-failure');
   };
   photoImage.src = picture.url;
+  pictureElement.onclick = function() {
+    Gallery.show(i);
+  };
+
+
   container.appendChild(pictureElement);
-  templateContainer.querySelector('.picture').onclick = Gallery.show(i);
+
 };
 
 module.exports = getPictureElement;
