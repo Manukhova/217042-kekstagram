@@ -16,40 +16,39 @@ var Gallery = function() {
     self.galleryContainer.classList.add('invisible');
   };
 
+  this.setPictures = function(pictures) {
+    self.pictures = pictures;
+  };
+
+  this.setActivePicture = function(i) {
+    self.activePicture = i;
+    self.preview.src = self.pictures[i].url;
+    self.likes.textContent = self.pictures[i].likes;
+    self.comments.textContent = self.pictures[i].comments;
+    self.activePicture = 0;
+  };
+
+  this.onElementClick = function() {
+    self.activePicture = this.itemNumber++;
+    if (this.itemNumber >= self.pictures.length) {
+      this.itemNumber = 0;
+    }
+    self.setActivePicture(this.itemNumber);
+  };
+
+  this.setPictures = function(pictures) {
+    self.pictures = pictures;
+  };
+
+  this.show = function(i) {
+    this.galleryContainer.classList.remove('invisible');
+    this.setActivePicture(i);
+    this.itemNumber = i;
+    this.controlNext.onclick = function() {
+      self.onElementClick(i);
+    };
+  };
 };
-
-Gallery.prototype.setPictures = function(pictures) {
-  self.pictures = pictures;
-};
-
-Gallery.prototype.show = function(i) {
-
-  this.galleryContainer.classList.remove('invisible');
-  this.setActivePicture(i);
-
-};
-
-Gallery.prototype.setActivePicture = function(i) {
-  this.activePicture = i;
-  this.preview.src = self.pictures[i].url;
-  this.likes.textContent = self.pictures[i].likes;
-  this.comments.textContent = self.pictures[i].comments;
-  this.activePicture = 0;
-  this.controlNext.onclick = this.onElementClick(i);
-};
-
-Gallery.prototype.onElementClick = function(i) {
-  this.activePicture = i++;
-  if (i > self.pictures.length) {
-    i = 0;
-  }
-  this.setActivePicture(i);
-};
-
-/*Gallery.prototype.hide = function() {
-  document.querySelector('.gallery-overlay').classList.add('invisible');
-  this.element.onclick = null;
-};*/
 
 
 module.exports = new Gallery();
