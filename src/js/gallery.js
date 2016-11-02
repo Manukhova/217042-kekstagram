@@ -7,13 +7,15 @@ var Gallery = function() {
   this.preview = document.querySelector('.gallery-overlay-image');
   this.likes = document.querySelector('.likes-count');
   this.comments = document.querySelector('.comments-count');
-  this.galleryPictures = [];
+  this.controlPrev = document.querySelector('.gallery-control-prev');
+  this.controlNext = document.querySelector('.gallery-control-next');
+  this.pictures = [];
   this.activePicture = 0;
 
   this.closeElement.onclick = function() {
-    document.querySelector('.gallery-overlay').classList.add('invisible');
-    self.closeElement.onclick = null;
+    self.galleryContainer.classList.add('invisible');
   };
+
 };
 
 Gallery.prototype.setPictures = function(pictures) {
@@ -21,30 +23,32 @@ Gallery.prototype.setPictures = function(pictures) {
 };
 
 Gallery.prototype.show = function(i) {
+
   this.galleryContainer.classList.remove('invisible');
+  this.setActivePicture(i);
+
+};
+
+Gallery.prototype.setActivePicture = function(i) {
   this.activePicture = i;
   this.preview.src = self.pictures[i].url;
   this.likes.textContent = self.pictures[i].likes;
   this.comments.textContent = self.pictures[i].comments;
-  document.querySelector('.gallery-overlay-controls');
   this.activePicture = 0;
+  this.controlNext.onclick = this.onElementClick(i);
 };
 
-
-
+Gallery.prototype.onElementClick = function(i) {
+  this.activePicture = i++;
+  if (i > self.pictures.length) {
+    i = 0;
+  }
+  this.setActivePicture(i);
+};
 
 /*Gallery.prototype.hide = function() {
   document.querySelector('.gallery-overlay').classList.add('invisible');
   this.element.onclick = null;
-};
-
-Gallery.prototype.setActivePicture = function(i) {
-  self.activePicture = i;
-  self.preview.src = self.pictures[i].url;
-  self.galleryContainer.querySelector('likes-count').textContent = self.pictures[i].likes;
-  self.galleryContainer.querySelector('comments-count').textContent = self.pictures[i].comments;
-  self.galleryContainer.querySelector('gallery-overlay-controls');
-  self.activePicture = 0;
 };*/
 
 
