@@ -21,5 +21,9 @@ var getPictureElement = function(picture) {
   return pictureElement;
 };
 
+var Picture = function(picture) {
+  this.picture = picture;
+  this.element = getPictureElement(picture);
+};
 
-module.exports = getPictureElement;
+module.exports = Picture;
