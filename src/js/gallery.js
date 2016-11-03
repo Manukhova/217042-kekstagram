@@ -25,15 +25,14 @@ var Gallery = function() {
     self.preview.src = self.pictures[i].url;
     self.likes.textContent = self.pictures[i].likes;
     self.comments.textContent = self.pictures[i].comments;
-    self.activePicture = 0;
   };
 
   this.onElementClick = function() {
-    self.activePicture = this.itemNumber++;
-    if (this.itemNumber >= self.pictures.length) {
-      this.itemNumber = 0;
+    this.activePicture++;
+    if (this.activePicture >= self.pictures.length) {
+      this.activePicture = 0;
     }
-    self.setActivePicture(this.itemNumber);
+    self.setActivePicture(this.activePicture);
   };
 
   this.setPictures = function(pictures) {
