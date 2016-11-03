@@ -1,5 +1,6 @@
 'use strict';
 
+
 var container = document.querySelector('.pictures');
 var template = document.querySelector('template');
 var templateContainer = 'content' in template ? template.content : template;
@@ -17,6 +18,8 @@ var getPictureElement = function(picture) {
   };
   photoImage.src = picture.url;
   container.appendChild(pictureElement);
+  return pictureElement;
 };
+
 
 module.exports = getPictureElement;
