@@ -1,11 +1,11 @@
 'use strict';
 
-var Gallery = require('./gallery');
+
 var container = document.querySelector('.pictures');
 var template = document.querySelector('template');
 var templateContainer = 'content' in template ? template.content : template;
 
-var getPictureElement = function(picture, i) {
+var getPictureElement = function(picture) {
   var pictureElement = templateContainer.querySelector('.picture').cloneNode(true);
   pictureElement.querySelector('.picture-comments').textContent = picture.comments;
   pictureElement.querySelector('.picture-likes').textContent = picture.likes;
@@ -17,13 +17,9 @@ var getPictureElement = function(picture, i) {
     pictureElement.classList.add('picture-load-failure');
   };
   photoImage.src = picture.url;
-  pictureElement.onclick = function() {
-    Gallery.show(i);
-  };
-
-
   container.appendChild(pictureElement);
-
+  return pictureElement;
 };
+
 
 module.exports = getPictureElement;
