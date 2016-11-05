@@ -1,17 +1,15 @@
 'use strict';
 
-var load = function(url, callback, callbackName) {
-  if (!callbackName) {
-    callbackName = 'cb' + Date.now();
-  }
+var load = function(url, params, callback) {
+  var xhr = new XMLHttpRequest();
 
-  window[callbackName] = function(pictures) {
-    callback(pictures);
+  xhr.onload = function(evt) {
+    var loadedData = JSON.parse(evt.target.response);
+    callback(loadedData);
   };
 
-  var script = document.createElement('script');
-  script.src = url + '?callback=' + callbackName;
-  document.body.appendChild(script);
+  xhr.open('GET', url + '?' + 'from=' + params.from + '&to=' + params.to + '&filter=' + params.filter);
+  xhr.send();
 };
 
 module.exports = load;
