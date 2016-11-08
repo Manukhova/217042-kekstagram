@@ -6,7 +6,7 @@ var Picture = require('./get-picture-element');
 var footer = document.querySelector('footer');
 var container = document.querySelector('.pictures');
 var filters = document.querySelector('.filters');
-var activeFilter = 'all';
+var activeFilter = 'filter-popular';
 var pageSize = 12;
 var pageNumber = 0;
 
@@ -26,7 +26,7 @@ var lastCall = Date.now();
 window.addEventListener('scroll', function() {
   if(Date.now() - lastCall >= 100) {
     if(footer.getBoundingClientRect().bottom - window.innerHeight <= 100) {
-      loadPictures(activeFilter, pageNumber++);
+      loadPictures(activeFilter, ++pageNumber);
     }
     lastCall = Date.now();
   }
