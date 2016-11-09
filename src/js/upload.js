@@ -204,17 +204,6 @@ uploadForm.addEventListener('change', function(evt) {
   }
 });
 
-var event = new Event('resizerchange');
-window.addEventListener('resizerchange', function() {
-  currentResizer.getConstraint();
-});
-
-var resizeControls = document.querySelector('.upload-resize-controls');
-resizeControls.addEventListener('input', function() {
-  resizeControls.dispatchEvent(event);
-  currentResizer.moveConstraint(parseInt(resizeX.value, 10), parseInt(resizeY.value, 10), parseInt(resizeSize.value, 10));
-});
-
 var resizeX = document.querySelector('#resize-x');
 var resizeY = document.querySelector('#resize-y');
 var resizeSize = document.querySelector('#resize-size');
@@ -224,6 +213,38 @@ resizeX.min = 0;
 resizeY.min = 0;
 resizeSize.min = 0;
 
+var event = new Event('resizerchange');
+window.addEventListener('resizerchange', function() {
+  resizeX.value = currentResizer.getConstraint().x;
+  resizeY.value = currentResizer.getConstraint().y;
+  resizeSize.value = currentResizer.getConstraint().side;
+
+});
+
+
+
+var resizeControls = document.querySelector('.upload-resize-controls');
+resizeControls.addEventListener('input', function() {
+  var valueX = parseInt(resizeX.value, 10);
+  var valueY = parseInt(resizeY.value, 10);
+  var valueSize = parseInt(resizeSize.value, 10);
+  if (isNaN(valueX)) {
+    valueX = 0;
+  }
+  if (isNaN(valueY)) {
+    valueY = 0;
+  }
+  if (isNaN(valueSize)) {
+    valueSize = currentResizer.getConstraint().side;
+  }
+
+  var rX = currentResizer.getConstraint().x + valueX;
+  var rY = currentResizer.getConstraint().y + valueY;
+
+
+  currentResizer.setConstraint(rX, rY, valueSize);
+  resizeControls.dispatchEvent(event);
+});
 
   /**
    * Обработка сброса формы кадрирования. Возвращает в начальное состояние
