@@ -7,6 +7,12 @@ var footer = document.querySelector('footer');
 var container = document.querySelector('.pictures');
 var filters = document.querySelector('.filters');
 var activeFilter = localStorage.getItem('filter');
+
+if (!activeFilter) {
+  localStorage.setItem('filter', 'filter-popular');
+  activeFilter = localStorage.getItem('filter');
+}
+
 document.getElementById(activeFilter).checked = true;
 var pageSize = 12;
 var pageNumber = 0;
@@ -41,10 +47,6 @@ var optimizedScroll = throttle(function() {
 }, 100);
 
 window.addEventListener('scroll', optimizedScroll);
-
-// if (!window.localStorage) {
-//   activeFilter = localStorage.setItem('filter', 'filter-popular');
-// }
 
 var loadPictures = function(filter, currentPageNumber) {
   load('/api/pictures', {
