@@ -6,7 +6,8 @@ var Picture = require('./get-picture-element');
 var footer = document.querySelector('footer');
 var container = document.querySelector('.pictures');
 var filters = document.querySelector('.filters');
-var activeFilter = 'filter-popular';
+var activeFilter = localStorage.getItem('filter');
+document.getElementById(activeFilter).checked = true;
 var pageSize = 12;
 var pageNumber = 0;
 
@@ -41,6 +42,9 @@ var optimizedScroll = throttle(function() {
 
 window.addEventListener('scroll', optimizedScroll);
 
+// if (!window.localStorage) {
+//   activeFilter = localStorage.setItem('filter', 'filter-popular');
+// }
 
 var loadPictures = function(filter, currentPageNumber) {
   load('/api/pictures', {
@@ -53,6 +57,7 @@ var loadPictures = function(filter, currentPageNumber) {
 var changeFilter = function(filterID) {
   container.innerHTML = '';
   activeFilter = filterID;
+  localStorage.setItem('filter', filterID);
   pageNumber = 0;
   loadPictures(filterID, pageNumber);
 };

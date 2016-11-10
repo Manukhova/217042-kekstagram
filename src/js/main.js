@@ -7,6 +7,6 @@ var filtersHidden = document.querySelector('.filters');
 
 filtersHidden.classList.add('hidden');
 
-loadPictures('filter-popular', 0);
+loadPictures(localStorage.getItem('filter'), 0);
 
 filtersHidden.classList.remove('hidden');
