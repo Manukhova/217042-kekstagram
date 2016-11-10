@@ -235,14 +235,10 @@ resizeControls.addEventListener('input', function() {
     valueY = 0;
   }
   if (isNaN(valueSize)) {
-    valueSize = currentResizer.getConstraint().side;
+    valueSize = 0;
   }
 
-  var rX = currentResizer.getConstraint().x + valueX;
-  var rY = currentResizer.getConstraint().y + valueY;
-
-
-  currentResizer.setConstraint(rX, rY, valueSize);
+  currentResizer.setConstraint(+valueX, +valueY, +valueSize);
   resizeControls.dispatchEvent(event);
 });
 
