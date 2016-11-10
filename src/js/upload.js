@@ -226,7 +226,6 @@ resizeControls.addEventListener('input', function() {
   var valueSize = parseInt(resizeSize.value, 10);
 
   currentResizer.setConstraint(valueX, valueY, valueSize);
-  resizeControls.dispatchEvent(event);
 });
 
   /**
