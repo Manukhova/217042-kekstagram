@@ -213,14 +213,11 @@ resizeX.min = 0;
 resizeY.min = 0;
 resizeSize.min = 0;
 
-var event = new Event('resizerchange');
 window.addEventListener('resizerchange', function() {
   resizeX.value = currentResizer.getConstraint().x;
   resizeY.value = currentResizer.getConstraint().y;
   resizeSize.value = currentResizer.getConstraint().side;
 });
-
-
 
 var resizeControls = document.querySelector('.upload-resize-controls');
 resizeControls.addEventListener('input', function() {
