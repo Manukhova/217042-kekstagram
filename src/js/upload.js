@@ -218,7 +218,6 @@ window.addEventListener('resizerchange', function() {
   resizeX.value = currentResizer.getConstraint().x;
   resizeY.value = currentResizer.getConstraint().y;
   resizeSize.value = currentResizer.getConstraint().side;
-
 });
 
 
@@ -228,17 +227,8 @@ resizeControls.addEventListener('input', function() {
   var valueX = parseInt(resizeX.value, 10);
   var valueY = parseInt(resizeY.value, 10);
   var valueSize = parseInt(resizeSize.value, 10);
-  if (isNaN(valueX)) {
-    valueX = 0;
-  }
-  if (isNaN(valueY)) {
-    valueY = 0;
-  }
-  if (isNaN(valueSize)) {
-    valueSize = 0;
-  }
 
-  currentResizer.setConstraint(+valueX, +valueY, +valueSize);
+  currentResizer.setConstraint(valueX, valueY, valueSize);
   resizeControls.dispatchEvent(event);
 });
 
