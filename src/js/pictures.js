@@ -22,15 +22,25 @@ var getPictures = function(pictures) {
   });
 };
 
-var lastCall = Date.now();
-window.addEventListener('scroll', function() {
-  if(Date.now() - lastCall >= 100) {
-    if(footer.getBoundingClientRect().bottom - window.innerHeight <= 100) {
-      loadPictures(activeFilter, ++pageNumber);
-    }
-    lastCall = Date.now();
+function throttle(func, ms) {
+  return function() {
+    var savedThis = this;
+    var savedArgs = arguments;
+
+    setTimeout(function() {
+      func.apply(savedThis, savedArgs);
+    }, ms);
+  };
+}
+
+var optimizedScroll = throttle(function() {
+  if (footer.getBoundingClientRect().bottom - window.innerHeight <= 100) {
+    loadPictures(activeFilter, ++pageNumber);
   }
-});
+}, 100);
+
+window.addEventListener('scroll', optimizedScroll);
+
 
 var loadPictures = function(filter, currentPageNumber) {
   load('/api/pictures', {
