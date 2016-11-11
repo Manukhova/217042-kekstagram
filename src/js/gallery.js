@@ -1,7 +1,6 @@
 'use strict';
 
 var Gallery = function() {
-  var self = this;
   this.galleryContainer = document.querySelector('.gallery-overlay');
   this.closeElement = document.querySelector('.gallery-overlay-close');
   this.preview = document.querySelector('.gallery-overlay-image');
@@ -12,41 +11,51 @@ var Gallery = function() {
   this.pictures = [];
   this.activePicture = 0;
 
-  this.closeElement.onclick = function() {
-    self.galleryContainer.classList.add('invisible');
-  };
+  this.galleryClose = this.galleryClose.bind(this);
 
-  this.setPictures = function(pictures) {
-    self.pictures = pictures;
-  };
+  this.closeElement.addEventListener('click', this.galleryClose);
 
-  this.setActivePicture = function(i) {
-    self.activePicture = i;
-    self.preview.src = self.pictures[i].url;
-    self.likes.textContent = self.pictures[i].likes;
-    self.comments.textContent = self.pictures[i].comments;
-  };
+  this.setPictures = this.setPictures.bind(this);
 
-  this.onElementClick = function() {
+  this.setActivePicture = this.setActivePicture.bind(this);
+
+  this.onElementClick = this.onElementClick.bind(this);
+
+  this.controlNext.addEventListener('click', this.onElementClick);
+
+  this.show = this.show.bind(this);
+};
+
+Gallery.prototype = {
+  setPictures: function(pictures) {
+    this.pictures = pictures;
+  },
+
+  setActivePicture: function(i) {
+    this.activePicture = i;
+    this.preview.src = this.pictures[i].url;
+    this.likes.textContent = this.pictures[i].likes;
+    this.comments.textContent = this.pictures[i].comments;
+  },
+
+  onElementClick: function() {
     this.activePicture++;
-    if (this.activePicture >= self.pictures.length) {
+    if (this.activePicture >= this.pictures.length) {
       this.activePicture = 0;
     }
-    self.setActivePicture(this.activePicture);
-  };
+    this.setActivePicture(this.activePicture);
+  },
 
-  this.setPictures = function(pictures) {
-    self.pictures = pictures;
-  };
-
-  this.show = function(i) {
+  show: function(i) {
     this.galleryContainer.classList.remove('invisible');
     this.setActivePicture(i);
     this.itemNumber = i;
-    this.controlNext.onclick = function() {
-      self.onElementClick(i);
-    };
-  };
+  },
+
+  galleryClose: function() {
+    this.galleryContainer.classList.add('invisible');
+  }
+
 };
 
 
