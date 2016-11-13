@@ -19,13 +19,14 @@ var pageNumber = 0;
 
 var getPictures = function(pictures) {
   gallery.setPictures(pictures);
-  pictures.forEach(function(picture, i) {
-    var photoElement = new Picture(picture).element;
-    photoElement.onclick = function(event) {
-      event.preventDefault();
-      gallery.show(i);
-      photoElement.onclick = null;
-    };
+  // pictures.forEach(function(picture, i) {
+  pictures.forEach(function(picture) {
+    var photoElement = new Picture(picture);
+    // photoElement.onclick = function(event) {
+    //   event.preventDefault();
+    //   gallery.show(i);
+    //   photoElement.onclick = null;
+    // };
   });
 };
 
