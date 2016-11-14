@@ -2,16 +2,16 @@
 
 var gallery = require('./gallery');
 var SuperClass = require('./superclass');
-var inherit = require('./utils');
+var utils = require('./utils');
 
-var Picture = function(picture) {
-  SuperClass.call(this, picture);
+var Picture = function(picture, i) {
+  SuperClass.call(this, picture, i);
 };
-inherit(Picture, SuperClass);
+utils.inherit(Picture, SuperClass);
 
-Picture = function(picture) {
+Picture = function(picture, i) {
   this.picture = picture;
-
+  this.i = i;
   this.container = document.querySelector('.pictures');
   this.template = document.querySelector('template');
   this.templateContainer = 'content' in this.template ? this.template.content : this.template;
@@ -35,9 +35,11 @@ Picture = function(picture) {
   this.onImageClick = this.onImageClick.bind(this);
 
   this.pictureElement.addEventListener('click', this.onImageClick);
+
 };
 
 Picture.prototype = {
+
   show: function() {
     this.container.appendChild(this.pictureElement);
   },
@@ -52,7 +54,7 @@ Picture.prototype = {
 
   onImageClick: function(event) {
     event.preventDefault();
-    gallery.show(this.picture);
+    gallery.show(this.i);
   },
 
   remove: function() {

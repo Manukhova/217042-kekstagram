@@ -2,12 +2,12 @@
 
 
 var SuperClass = require('./superclass');
-var inherit = require('./utils');
+var utils = require('./utils');
 
 var Gallery = function() {
   SuperClass.call(this);
 };
-inherit(Gallery, SuperClass);
+utils.inherit(Gallery, SuperClass);
 
 Gallery = function() {
   this.galleryContainer = document.querySelector('.gallery-overlay');
@@ -40,32 +40,38 @@ Gallery.prototype = {
     this.pictures = pictures;
   },
 
-  setActivePicture: function(picture) {
-    this.activePicture = picture;
-    this.preview.src = picture.url;
-    this.likes.textContent = picture.likes;
-    this.comments.textContent = picture.comments;
+  // setActivePicture: function(picture) {
+  //   this.activePicture = picture;
+  //   this.preview.src = picture.url;
+  //   this.likes.textContent = picture.likes;
+  //   this.comments.textContent = picture.comments;
+  // },
+
+  setActivePicture: function(i) {
+    this.activePicture = i;
+    this.preview.src = this.pictures[i].url;
+    this.likes.textContent = this.pictures[i].likes;
+    this.comments.textContent = this.pictures[i].comments;
   },
 
   onElementClick: function() {
-    this.i = this.pictures.indexOf(this.activePicture);
-    if (this.i >= this.pictures.length) {
-      this.activePicture = this.pictures[0];
-    }
-    this.activePicture = this.pictures[++this.i];
-    this.setActivePicture(this.activePicture);
+    // this.i = this.pictures.indexOf(this.activePicture);
+    // if (this.i >= this.pictures.length) {
+    //   this.activePicture = this.pictures[0];
+    // }
+    // this.activePicture = this.pictures[++this.i];
+    // this.setActivePicture(this.activePicture);
 
-  //   this.activePicture++;
-  //   if (this.activePicture >= this.pictures.length) {
-  //     this.activePicture = 0;
-  //   }
-  //   this.setActivePicture(this.activePicture);
+    this.activePicture++;
+    if (this.activePicture >= this.pictures.length) {
+      this.activePicture = 0;
+    }
+    this.setActivePicture(this.activePicture);
   },
 
-  show: function(picture) {
+  show: function(i) {
     this.galleryContainer.classList.remove('invisible');
-    this.setActivePicture(picture);
-    this.itemNumber = picture;
+    this.setActivePicture(i);
   },
 
   remove: function() {

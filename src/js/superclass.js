@@ -10,10 +10,8 @@ SuperClass.prototype = {
   },
 
   show: function() {
-    this.container.classList.remove('invisible');
+    this.element.parentNode.appendChild(this.element);
   }
-
-
 };
 
 module.exports = SuperClass;
