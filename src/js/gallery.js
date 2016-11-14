@@ -37,15 +37,8 @@ Gallery = function() {
 
 Gallery.prototype = {
   setPictures: function(pictures) {
-    this.pictures = pictures;
+    this.pictures = this.pictures.concat(pictures);
   },
-
-  // setActivePicture: function(picture) {
-  //   this.activePicture = picture;
-  //   this.preview.src = picture.url;
-  //   this.likes.textContent = picture.likes;
-  //   this.comments.textContent = picture.comments;
-  // },
 
   setActivePicture: function(i) {
     this.activePicture = i;
@@ -55,13 +48,6 @@ Gallery.prototype = {
   },
 
   onElementClick: function() {
-    // this.i = this.pictures.indexOf(this.activePicture);
-    // if (this.i >= this.pictures.length) {
-    //   this.activePicture = this.pictures[0];
-    // }
-    // this.activePicture = this.pictures[++this.i];
-    // this.setActivePicture(this.activePicture);
-
     this.activePicture++;
     if (this.activePicture >= this.pictures.length) {
       this.activePicture = 0;

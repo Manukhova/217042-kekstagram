@@ -16,9 +16,10 @@ Picture = function(picture, i) {
   this.template = document.querySelector('template');
   this.templateContainer = 'content' in this.template ? this.template.content : this.template;
 
-  this.pictureElement = this.templateContainer.querySelector('.picture').cloneNode(true);
-  this.pictureElement.querySelector('.picture-comments').textContent = this.picture.comments;
-  this.pictureElement.querySelector('.picture-likes').textContent = this.picture.likes;
+  this.element = this.templateContainer.querySelector('.picture').cloneNode(true);
+  this.element.querySelector('.picture-comments').textContent = this.picture.comments;
+  this.pictureLikes = this.element.querySelector('.picture-likes');
+  this.pictureLikes.textContent = this.picture.likes;
   this.photoImage = new Image();
 
   this.photoImageUrl = this.photoImageUrl.bind(this);
@@ -33,23 +34,21 @@ Picture = function(picture, i) {
   this.show();
 
   this.onImageClick = this.onImageClick.bind(this);
-
-  this.pictureElement.addEventListener('click', this.onImageClick);
-
+  this.element.addEventListener('click', this.onImageClick);
 };
 
 Picture.prototype = {
 
   show: function() {
-    this.container.appendChild(this.pictureElement);
+    SuperClass.prototype.show.call(this, this.element, this.container);
   },
 
   photoImageUrl: function() {
-    this.pictureElement.querySelector('img').src = this.picture.url;
+    this.element.querySelector('img').src = this.picture.url;
   },
 
   photoImageError: function() {
-    this.pictureElement.classList.add('picture-load-failure');
+    this.element.classList.add('picture-load-failure');
   },
 
   onImageClick: function(event) {
@@ -59,6 +58,7 @@ Picture.prototype = {
 
   remove: function() {
     this.element.removeEventListener('click', this.onImageClick);
+    SuperClass.prototype.remove.call(this, this.element, this.container);
   },
 
 };

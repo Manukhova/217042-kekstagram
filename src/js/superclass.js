@@ -5,12 +5,12 @@ var SuperClass = function(element) {
 };
 
 SuperClass.prototype = {
-  remove: function() {
-    this.element.parentNode.removeChild(this.element);
+  remove: function(element, parent) {
+    parent.removeChild(element);
   },
 
-  show: function() {
-    this.element.parentNode.appendChild(this.element);
+  show: function(element, parent) {
+    parent.appendChild(element);
   }
 };
 
