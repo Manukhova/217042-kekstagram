@@ -1,29 +1,67 @@
 'use strict';
 
+var gallery = require('./gallery');
+var SuperClass = require('./superclass');
+var utils = require('./utils');
 
-var container = document.querySelector('.pictures');
-var template = document.querySelector('template');
-var templateContainer = 'content' in template ? template.content : template;
-
-var getPictureElement = function(picture) {
-  var pictureElement = templateContainer.querySelector('.picture').cloneNode(true);
-  pictureElement.querySelector('.picture-comments').textContent = picture.comments;
-  pictureElement.querySelector('.picture-likes').textContent = picture.likes;
-  var photoImage = new Image();
-  photoImage.onload = function() {
-    pictureElement.querySelector('img').src = picture.url;
-  };
-  photoImage.onerror = function() {
-    pictureElement.classList.add('picture-load-failure');
-  };
-  photoImage.src = picture.url;
-  container.appendChild(pictureElement);
-  return pictureElement;
+var Picture = function(picture, i) {
+  SuperClass.call(this, picture, i);
 };
+utils.inherit(Picture, SuperClass);
 
-var Picture = function(picture) {
+Picture = function(picture, i) {
   this.picture = picture;
-  this.element = getPictureElement(picture);
+  this.i = i;
+  this.container = document.querySelector('.pictures');
+  this.template = document.querySelector('template');
+  this.templateContainer = 'content' in this.template ? this.template.content : this.template;
+
+  this.element = this.templateContainer.querySelector('.picture').cloneNode(true);
+  this.element.querySelector('.picture-comments').textContent = this.picture.comments;
+  this.pictureLikes = this.element.querySelector('.picture-likes');
+  this.pictureLikes.textContent = this.picture.likes;
+  this.photoImage = new Image();
+
+  this.photoImageUrl = this.photoImageUrl.bind(this);
+  this.photoImage.addEventListener('load', this.photoImageUrl);
+
+  this.photoImageError = this.photoImageError.bind(this);
+  this.photoImage.addEventListener('error', this.photoImageError);
+
+  this.photoImage.src = this.picture.url;
+
+  this.show = this.show.bind(this);
+  this.show();
+
+  this.onImageClick = this.onImageClick.bind(this);
+  this.element.addEventListener('click', this.onImageClick);
 };
+
+Picture.prototype = {
+
+  show: function() {
+    SuperClass.prototype.show.call(this, this.element, this.container);
+  },
+
+  photoImageUrl: function() {
+    this.element.querySelector('img').src = this.picture.url;
+  },
+
+  photoImageError: function() {
+    this.element.classList.add('picture-load-failure');
+  },
+
+  onImageClick: function(event) {
+    event.preventDefault();
+    gallery.show(this.i);
+  },
+
+  remove: function() {
+    this.element.removeEventListener('click', this.onImageClick);
+    SuperClass.prototype.remove.call(this, this.element, this.container);
+  },
+
+};
+
 
 module.exports = Picture;

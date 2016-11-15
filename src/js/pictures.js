@@ -18,14 +18,11 @@ var pageSize = 12;
 var pageNumber = 0;
 
 var getPictures = function(pictures) {
+  var i = gallery.pictures.length;
   gallery.setPictures(pictures);
-  pictures.forEach(function(picture, i) {
-    var photoElement = new Picture(picture).element;
-    photoElement.onclick = function(event) {
-      event.preventDefault();
-      gallery.show(i);
-      photoElement.onclick = null;
-    };
+  pictures.forEach(function(picture) {
+    var photoElement = new Picture(picture, i++);
+    return photoElement;
   });
 };
 
@@ -44,7 +41,7 @@ var optimizedScroll = throttle(function() {
   if (footer.getBoundingClientRect().bottom - window.innerHeight <= 100) {
     loadPictures(activeFilter, ++pageNumber);
   }
-}, 100);
+}, 10);
 
 window.addEventListener('scroll', optimizedScroll);
 
