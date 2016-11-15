@@ -60,8 +60,8 @@ Gallery.prototype = {
   },
 
   onLikesClick: function(evt) {
-    this.likes.classList.toggle('liked');
-    if(evt.target.classList.contains('liked')) {
+    this.likes.classList.toggle('likes-count-liked');
+    if(evt.target.classList.contains('likes-count-liked')) {
       this.likes.textContent = this.pictures[this.activePicture].setLikesCount();
     } else {
       this.likes.textContent = this.pictures[this.activePicture].removeLikesCount();
