@@ -52,6 +52,7 @@ Gallery.prototype = {
   },
 
   onElementClick: function() {
+    this.likes.classList.remove('likes-count-liked');
     this.activePicture++;
     if (this.activePicture >= this.pictures.length) {
       this.activePicture = 0;
