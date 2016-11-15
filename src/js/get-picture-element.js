@@ -35,6 +35,9 @@ Picture = function(picture, i) {
 
   this.onImageClick = this.onImageClick.bind(this);
   this.element.addEventListener('click', this.onImageClick);
+
+  this.onLikesChange = this.onLikesChange.bind(this);
+  window.addEventListener('likeschange', this.onLikesChange);
 };
 
 Picture.prototype = {
@@ -54,6 +57,11 @@ Picture.prototype = {
   onImageClick: function(event) {
     event.preventDefault();
     gallery.show(this.i);
+    this.pictureLikes.textContent = gallery.onLikesChange();
+  },
+
+  onLikesChange: function() {
+    this.pictureLikes.textContent = gallery.onLikesChange();
   },
 
   remove: function() {

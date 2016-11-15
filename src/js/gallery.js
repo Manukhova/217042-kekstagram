@@ -9,6 +9,8 @@ var Gallery = function() {
 };
 utils.inherit(Gallery, SuperClass);
 
+var myEvent = new CustomEvent('likeschange');
+
 Gallery = function() {
   this.galleryContainer = document.querySelector('.gallery-overlay');
   this.closeElement = document.querySelector('.gallery-overlay-close');
@@ -60,13 +62,18 @@ Gallery.prototype = {
     this.setActivePicture(this.activePicture);
   },
 
-  onLikesClick: function(evt) {
+  onLikesClick: function() {
     this.likes.classList.toggle('likes-count-liked');
-    if(evt.target.classList.contains('likes-count-liked')) {
+    if(this.likes.classList.contains('likes-count-liked')) {
       this.likes.textContent = this.pictures[this.activePicture].setLikesCount();
     } else {
       this.likes.textContent = this.pictures[this.activePicture].removeLikesCount();
     }
+    window.dispatchEvent(myEvent);
+  },
+
+  onLikesChange: function() {
+    return this.likes.textContent;
   },
 
   show: function(i) {
