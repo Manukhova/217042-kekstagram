@@ -32,6 +32,10 @@ Gallery = function() {
 
   this.controlNext.addEventListener('click', this.onElementClick);
 
+  this.onLikesClick = this.onLikesClick.bind(this);
+
+  this.likes.addEventListener('click', this.onLikesClick);
+
   this.show = this.show.bind(this);
 };
 
@@ -42,9 +46,9 @@ Gallery.prototype = {
 
   setActivePicture: function(i) {
     this.activePicture = i;
-    this.preview.src = this.pictures[i].url;
-    this.likes.textContent = this.pictures[i].likes;
-    this.comments.textContent = this.pictures[i].comments;
+    this.preview.src = this.pictures[i].getURL();
+    this.likes.textContent = this.pictures[i].getLikesCount();
+    this.comments.textContent = this.pictures[i].getCommentsCount();
   },
 
   onElementClick: function() {
@@ -53,6 +57,15 @@ Gallery.prototype = {
       this.activePicture = 0;
     }
     this.setActivePicture(this.activePicture);
+  },
+
+  onLikesClick: function(evt) {
+    this.likes.classList.toggle('liked');
+    if(evt.target.classList.contains('liked')) {
+      this.likes.textContent = this.pictures[this.activePicture].setLikesCount();
+    } else {
+      this.likes.textContent = this.pictures[this.activePicture].removeLikesCount();
+    }
   },
 
   show: function(i) {

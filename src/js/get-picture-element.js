@@ -17,9 +17,9 @@ Picture = function(picture, i) {
   this.templateContainer = 'content' in this.template ? this.template.content : this.template;
 
   this.element = this.templateContainer.querySelector('.picture').cloneNode(true);
-  this.element.querySelector('.picture-comments').textContent = this.picture.comments;
+  this.element.querySelector('.picture-comments').textContent = this.picture.getCommentsCount();
   this.pictureLikes = this.element.querySelector('.picture-likes');
-  this.pictureLikes.textContent = this.picture.likes;
+  this.pictureLikes.textContent = this.picture.getLikesCount();
   this.photoImage = new Image();
 
   this.photoImageUrl = this.photoImageUrl.bind(this);
@@ -28,7 +28,7 @@ Picture = function(picture, i) {
   this.photoImageError = this.photoImageError.bind(this);
   this.photoImage.addEventListener('error', this.photoImageError);
 
-  this.photoImage.src = this.picture.url;
+  this.photoImage.src = this.picture.getURL();
 
   this.show = this.show.bind(this);
   this.show();
@@ -44,7 +44,7 @@ Picture.prototype = {
   },
 
   photoImageUrl: function() {
-    this.element.querySelector('img').src = this.picture.url;
+    this.element.querySelector('img').src = this.picture.getURL();
   },
 
   photoImageError: function() {
