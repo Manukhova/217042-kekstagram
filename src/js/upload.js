@@ -263,10 +263,11 @@ resizeForm.addEventListener('submit', function(evt) {
     resizeForm.classList.add('invisible');
     filterForm.classList.remove('invisible');
     selectedFilter = Cookies.get('upload-filter');
-    if (!filterCookie) {
+    if (!selectedFilter) {
       selectedFilter = 'none';
     }
     filterImage.className = 'filter-image-preview ' + FILTER_MAP[selectedFilter];
+    document.getElementById('upload-' + FILTER_MAP[selectedFilter]).checked = true;
   }
 });
 
@@ -286,7 +287,7 @@ filterForm.addEventListener('reset', function(evt) {
    * записав сохраненный фильтр в cookie.
    * @param {Event} evt
    */
-var filterCookie;
+
 filterForm.addEventListener('submit', function(evt) {
   evt.preventDefault();
 
@@ -298,7 +299,7 @@ filterForm.addEventListener('submit', function(evt) {
     birthday.setYear(newYear);
   }
 
-  filterCookie = Cookies.set('upload-filter', selectedFilter, { expires: ((now - birthday) / (24 * 60 * 60 * 1000)) });
+  Cookies.set('upload-filter', selectedFilter, { expires: ((now - birthday) / (24 * 60 * 60 * 1000)) });
 
   cleanupResizer();
   updateBackground();

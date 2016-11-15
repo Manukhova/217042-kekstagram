@@ -22,6 +22,7 @@ var getPictures = function(pictures) {
   gallery.setPictures(pictures);
   pictures.forEach(function(picture) {
     var photoElement = new Picture(picture, i++);
+    return photoElement;
   });
 };
 
