@@ -57,11 +57,10 @@ Picture.prototype = {
   onImageClick: function(event) {
     event.preventDefault();
     gallery.show(this.i);
-    this.pictureLikes.textContent = gallery.onLikesChange();
   },
 
   onLikesChange: function() {
-    this.pictureLikes.textContent = gallery.onLikesChange();
+    this.pictureLikes.textContent = this.picture.getLikesCount();
   },
 
   remove: function() {

@@ -64,16 +64,13 @@ Gallery.prototype = {
 
   onLikesClick: function() {
     this.likes.classList.toggle('likes-count-liked');
+    this.picture = this.pictures[this.activePicture];
     if(this.likes.classList.contains('likes-count-liked')) {
-      this.likes.textContent = this.pictures[this.activePicture].setLikesCount();
+      this.likes.textContent = this.picture.setLikesCount();
     } else {
-      this.likes.textContent = this.pictures[this.activePicture].removeLikesCount();
+      this.likes.textContent = this.picture.removeLikesCount();
     }
     window.dispatchEvent(myEvent);
-  },
-
-  onLikesChange: function() {
-    return this.likes.textContent;
   },
 
   show: function(i) {
