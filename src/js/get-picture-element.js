@@ -56,7 +56,8 @@ Picture.prototype = {
 
   onImageClick: function(event) {
     event.preventDefault();
-    gallery.show(this.i);
+    // gallery.show(this.i);
+    location.hash = '#photo/photos/' + this.i + '.jpg';
   },
 
   onLikesChange: function() {
