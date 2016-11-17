@@ -24,6 +24,7 @@ var getPictures = function(pictures) {
     var photoElement = new Picture(picture, i++);
     return photoElement;
   });
+  gallery.restoreFromHash();
 };
 
 function throttle(func, ms) {

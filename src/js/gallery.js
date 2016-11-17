@@ -1,6 +1,5 @@
 'use strict';
 
-
 var SuperClass = require('./superclass');
 var utils = require('./utils');
 
@@ -41,7 +40,8 @@ Gallery = function() {
   this.show = this.show.bind(this);
 
   window.addEventListener('hashchange', this.onHashChange.bind(this));
-  // this.restoreFromHash();
+
+  this.getIndexByHash = this.getIndexByHash.bind(this);
 };
 
 Gallery.prototype = {
@@ -49,34 +49,27 @@ Gallery.prototype = {
     this.pictures = this.pictures.concat(pictures);
   },
 
-  setActivePicture: function(i, adress) {
-    if(adress !== '') {
-      this.preview.src = adress;
-    } else {
-      this.activePicture = i;
-    }
-    this.preview.src = this.pictures[i].getURL();
-    this.likes.textContent = this.pictures[i].getLikesCount();
-    this.comments.textContent = this.pictures[i].getCommentsCount();
+  setActivePicture: function(i) {
+    this.activePicture = i;
+    var picture = this.pictures[i];
+    this.preview.src = picture.getURL();
+    this.likes.textContent = picture.getLikesCount();
+    this.comments.textContent = picture.getCommentsCount();
   },
 
   onElementClick: function() {
+    ++this.activePicture;
     this.likes.classList.remove('likes-count-liked');
-    location.hash = '#photo/photos/' + (this.activePicture++) + '.jpg';
-    // this.activePicture++;
-    if (this.activePicture >= this.pictures.length) {
-      this.activePicture = 0;
-    }
-    // this.setActivePicture(this.activePicture);
-    this.setActivePicture(location.hash);
+    location.hash = '#photo/' + this.pictures[this.activePicture].getURL();
   },
 
   onLikesClick: function() {
+    var picture = this.pictures[this.activePicture];
     this.likes.classList.toggle('likes-count-liked');
     if(this.likes.classList.contains('likes-count-liked')) {
-      this.likes.textContent = this.pictures[this.activePicture].setLikesCount();
+      this.likes.textContent = picture.setLikesCount();
     } else {
-      this.likes.textContent = this.pictures[this.activePicture].removeLikesCount();
+      this.likes.textContent = picture.removeLikesCount();
     }
     window.dispatchEvent(myEvent);
   },
@@ -91,25 +84,33 @@ Gallery.prototype = {
 
   restoreFromHash: function() {
     if(location.hash.match(/#photo\/(\S+)/)) {
-      this.i = parseInt(((location.hash).slice(14)), 10);
-      this.show(this.i, location.hash);
+      this.show(location.hash);
     } else {
       this.remove();
     }
   },
 
-  show: function(i, adress) {
-    // this.galleryContainer.classList.remove('invisible');
-    // location.hash = '#photo/photos/' + i + '.jpg';
-    if(adress !== '') {
-      this.setActivePicture(i, adress);
+  show: function(searchParam) {
+    var index;
+    if(typeof searchParam === 'number') {
+      index = searchParam;
     } else {
-      this.remove();
+      index = this.getIndexByHash(searchParam);
     }
+    this.setActivePicture(index);
+
+    this.galleryContainer.classList.remove('invisible');
+  },
+
+  getIndexByHash: function(adress) {
+    var hash = adress.slice(7);
+    return this.pictures.findIndex(function(item) {
+      return item.getURL() === hash;
+    });
   },
 
   remove: function() {
-    // this.galleryContainer.classList.add('invisible');
+    this.galleryContainer.classList.add('invisible');
     location.hash = '';
   }
 
