@@ -16,8 +16,7 @@ Gallery = function() {
   this.preview = document.querySelector('.gallery-overlay-image');
   this.likes = document.querySelector('.likes-count');
   this.comments = document.querySelector('.comments-count');
-  this.controlPrev = document.querySelector('.gallery-control-prev');
-  this.controlNext = document.querySelector('.gallery-control-next');
+  this.controlNext = this.galleryContainer.querySelector('img');
   this.pictures = [];
   this.activePicture = 0;
 
