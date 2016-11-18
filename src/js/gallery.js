@@ -58,6 +58,9 @@ Gallery.prototype = {
 
   onElementClick: function() {
     ++this.activePicture;
+    if (this.activePicture >= this.pictures.length) {
+      this.activePicture = 0;
+    }
     this.likes.classList.remove('likes-count-liked');
     location.hash = '#photo/' + this.pictures[this.activePicture].getURL();
   },
